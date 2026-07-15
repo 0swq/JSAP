@@ -1,0 +1,54 @@
+### Variables
+@baseUrl = http://localhost:3000/api/prestamos
+@token = {{login.response.body.data.token}}
+
+### Login
+# @name login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "admin@biblioteca.edu",
+  "password": "12345678"
+}
+
+### GET todos los préstamos
+GET {{baseUrl}}
+Authorization: Bearer {{token}}
+
+### GET préstamos con filtros
+GET {{baseUrl}}?estado=activo&usuarioId=xxx
+Authorization: Bearer {{token}}
+
+### GET préstamos por usuario
+GET {{baseUrl}}/usuario/550e8400-e29b-41d4-a716-446655440010
+Authorization: Bearer {{token}}
+
+### GET préstamo por ID
+GET {{baseUrl}}/550e8400-e29b-41d4-a716-446655440007
+Authorization: Bearer {{token}}
+
+### POST crear préstamo
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "usuarioId": "550e8400-e29b-41d4-a716-446655440010",
+  "ejemplarId": "550e8400-e29b-41d4-a716-446655440006",
+  "fechaMaxDevolucion": "2026-07-03T00:00:00.000Z"
+}
+
+### PATCH actualizar préstamo (devolver)
+PATCH {{baseUrl}}/550e8400-e29b-41d4-a716-446655440007
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "fechaDevolucion": "2026-06-20T00:00:00.000Z",
+  "estado": "devuelto"
+}
+
+### DELETE eliminar préstamo
+DELETE {{baseUrl}}/550e8400-e29b-41d4-a716-446655440007
+Authorization: Bearer {{token}}

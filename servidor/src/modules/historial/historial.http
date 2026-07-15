@@ -1,0 +1,32 @@
+@baseUrl = http://localhost:3000/api/historial
+@token = {{login.response.body.data.token}}
+
+# @name login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "admin@biblioteca.edu",
+  "password": "12345678"
+}
+
+### GET historial con filtros
+GET {{baseUrl}}?modulo=prestamos&nombreAccion=PRESTAMO_CREADO
+Authorization: Bearer {{token}}
+
+### GET historial por ID
+GET {{baseUrl}}/550e8400-e29b-41d4-a716-446655440015
+Authorization: Bearer {{token}}
+
+### POST crear registro de historial
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombreAccion": "PRESTAMO_CREADO",
+  "accion": "Se creó un nuevo préstamo",
+  "hechoPorId": "550e8400-e29b-41d4-a716-446655440010",
+  "modulo": "prestamos",
+  "ipUsuario": "192.168.1.1"
+}

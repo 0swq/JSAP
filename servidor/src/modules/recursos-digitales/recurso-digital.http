@@ -1,0 +1,47 @@
+### Variables
+@baseUrl = http://localhost:3000/api/recursos-digitales
+@token = {{login.response.body.data.token}}
+
+### Login
+# @name login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "admin@biblioteca.edu",
+  "password": "12345678"
+}
+
+### GET todos los recursos (público)
+GET {{baseUrl}}
+
+### GET recursos por libro
+GET {{baseUrl}}/libro/550e8400-e29b-41d4-a716-446655440005
+
+### GET recurso por ID
+GET {{baseUrl}}/550e8400-e29b-41d4-a716-446655440009
+
+### POST crear recurso digital
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "libroId": "550e8400-e29b-41d4-a716-446655440005",
+  "tipo": "pdf",
+  "url": "https://ejemplo.com/libro.pdf",
+  "formato": "pdf"
+}
+
+### PATCH actualizar recurso
+PATCH {{baseUrl}}/550e8400-e29b-41d4-a716-446655440009
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "url": "https://ejemplo.com/actualizado.pdf"
+}
+
+### DELETE eliminar recurso
+DELETE {{baseUrl}}/550e8400-e29b-41d4-a716-446655440009
+Authorization: Bearer {{token}}

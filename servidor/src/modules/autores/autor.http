@@ -1,0 +1,43 @@
+### Variables
+@baseUrl = http://localhost:3000/api/autores
+@token = {{login.response.body.data.token}}
+
+### Login
+# @name login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "admin@biblioteca.edu",
+  "password": "12345678"
+}
+
+### GET todos los autores (público)
+GET {{baseUrl}}
+
+### GET autor por ID
+GET {{baseUrl}}/550e8400-e29b-41d4-a716-446655440002
+
+### POST crear autor
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Gabriel",
+  "apellidos": "García Márquez",
+  "nacionalidad": "Colombiana",
+  "biografia": "Escritor colombiano..."
+}
+### PATCH actualizar autor
+PATCH {{baseUrl}}/550e8400-e29b-41d4-a716-446655440002
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "biografia": "Biografía actualizada"
+}
+
+### DELETE eliminar autor
+DELETE {{baseUrl}}/550e8400-e29b-41d4-a716-446655440002
+Authorization: Bearer {{token}}

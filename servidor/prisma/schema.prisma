@@ -1,0 +1,262 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Rol {
+  id          String   @id @default(uuid()) @db.Uuid
+  nombre      String   @unique @db.VarChar(50)
+  descripcion String?
+  creadoEn    DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  usuarios Usuario[]
+
+  @@map("rol")
+}
+
+model Usuario {
+  id           String   @id @default(uuid()) @db.VarChar(128)
+  rolId        String   @map("rol_id") @db.Uuid
+  nombre       String?
+  apellidos    String?
+  dni          String?
+  correo String? @unique @db.VarChar(150)
+  passwordHash String?  @map("password_hash") @db.VarChar(255)
+  creadoEn     DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  rol       Rol         @relation(fields: [rolId], references: [id])
+  prestamos Prestamo[]
+  reservas  Reserva[]
+  resenas   Resena[]
+  historial Historial[]
+  favoritos Favorito[]
+
+  @@map("usuario")
+}
+
+model Autor {
+  id              String    @id @default(uuid()) @db.Uuid
+  nombre          String?   @db.VarChar(100)
+  apellidos       String    @db.VarChar(200)
+  nacionalidad    String?   @db.VarChar(100)
+  biografia       String?
+  fotoUrl         String?   @map("foto_url")
+  fechaNacimiento DateTime? @map("fecha_nacimiento") @db.Date
+  creadoEn        DateTime  @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  libros LibroAutor[]
+
+  @@map("autor")
+}
+
+model Categoria {
+  id       String   @id @default(uuid()) @db.Uuid
+  nombre   String   @db.VarChar(120)
+  padreId  String?  @map("padre_id") @db.Uuid
+  activa   Boolean  @default(true)
+  creadoEn DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  padre         Categoria?       @relation("CategoriaPadreHijo", fields: [padreId], references: [id])
+  subcategorias Categoria[]      @relation("CategoriaPadreHijo")
+  libros        LibroCategoria[]
+
+  @@map("categoria")
+}
+
+model Editorial {
+  id       String   @id @default(uuid()) @db.Uuid
+  nombre   String?  @db.VarChar(150)
+  pais     String?
+  creadoEn DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  libros Libro[]
+
+  @@map("editorial")
+}
+
+model Libro {
+  id              String   @id @default(uuid()) @db.Uuid
+  titulo          String   @db.VarChar(300)
+  isbn            String?  @unique @db.VarChar(20)
+  editorialId     String   @map("editorial_id") @db.Uuid
+  anioPublicacion Int?     @map("anio_publicacion")
+  idioma          String?
+  publicado       Boolean  @default(true)
+  creadoEn        DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+  fotoUrl         String?  @map("foto_url")
+  descripcion     String?  @db.Text
+  editorial         Editorial        @relation(fields: [editorialId], references: [id])
+  recursosDigitales RecursoDigital[]
+  ejemplares        Ejemplar[]
+  autores           LibroAutor[]
+  categorias        LibroCategoria[]
+  reservas          Reserva[]
+  resenas           Resena[]
+  favoritos         Favorito[]
+
+  @@map("libro")
+}
+
+model RecursoDigital {
+  id              String   @id @default(uuid()) @db.Uuid
+  libroId         String   @map("libro_id") @db.Uuid
+  tipo     String   @db.VarChar(30)
+  url      String
+  formato  String?  @db.VarChar(20)
+  creadoEn DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  libro Libro @relation(fields: [libroId], references: [id])
+
+  @@map("recurso_digital")
+}
+
+model Ejemplar {
+  id               String    @id @default(uuid()) @db.Uuid
+  libroId          String    @map("libro_id") @db.Uuid
+  codigoBarras     String    @unique @map("codigo_barras") @db.VarChar(50)
+  estado           String    @default("disponible") @db.VarChar(30)
+  ubicacion        String?
+  fechaAdquisicion DateTime? @map("fecha_adquisicion") @db.Date
+  creadoEn         DateTime  @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  libro     Libro      @relation(fields: [libroId], references: [id])
+  prestamos Prestamo[]
+  reservas  Reserva[]
+
+  @@map("ejemplar")
+}
+
+model LibroAutor {
+  libroId String @map("libro_id") @db.Uuid
+  autorId String @map("autor_id") @db.Uuid
+
+  libro Libro @relation(fields: [libroId], references: [id])
+  autor Autor @relation(fields: [autorId], references: [id])
+
+  @@id([libroId, autorId])
+  @@map("libro_autor")
+}
+
+model LibroCategoria {
+  libroId     String @map("libro_id") @db.Uuid
+  categoriaId String @map("categoria_id") @db.Uuid
+
+  libro     Libro     @relation(fields: [libroId], references: [id])
+  categoria Categoria @relation(fields: [categoriaId], references: [id])
+
+  @@id([libroId, categoriaId])
+  @@map("libro_categoria")
+}
+
+model Prestamo {
+  id                 String    @id @default(uuid()) @db.Uuid
+  usuarioId          String    @map("usuario_id") @db.VarChar(128)
+  ejemplarId         String    @map("ejemplar_id") @db.Uuid
+  fechaMaxDevolucion DateTime  @map("fecha_max_devolucion") @db.Timestamptz(6)
+  fechaDevolucion    DateTime? @map("fecha_devolucion") @db.Timestamptz(6)
+  estado             String    @default("activo") @db.VarChar(20)
+  creadoEn           DateTime  @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  ejemplar Ejemplar @relation(fields: [ejemplarId], references: [id])
+  multa    Multa?
+
+  @@map("prestamo")
+}
+
+model Multa {
+  id         String   @id @default(uuid()) @db.Uuid
+  prestamoId String   @unique @map("prestamo_id") @db.Uuid
+  monto      Decimal  @db.Decimal(10, 2)
+  diasMora   Int      @map("dias_mora")
+  estado     String   @default("pendiente") @db.VarChar(20)
+  creadoEn   DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  prestamo Prestamo    @relation(fields: [prestamoId], references: [id])
+  pagos    PagoMulta[]
+
+  @@map("multa")
+}
+
+model PagoMulta {
+  id          String   @id @default(uuid()) @db.Uuid
+  multaId     String   @map("multa_id") @db.Uuid
+  montoPagado Decimal  @map("monto_pagado") @db.Decimal(10, 2)
+  metodoPago  String   @map("metodo_pago") @db.VarChar(50)
+  creadoEn    DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  multa Multa @relation(fields: [multaId], references: [id])
+
+  @@map("pago_multa")
+}
+
+model Reserva {
+  id              String   @id @default(uuid()) @db.Uuid
+  usuarioId       String   @map("usuario_id") @db.VarChar(128)
+  libroId         String   @map("libro_id") @db.Uuid
+  ejemplarId      String   @map("ejemplar_id") @db.Uuid
+  fechaExpiracion DateTime @map("fecha_expiracion") @db.Timestamptz(6)
+  estado          String   @default("pendiente") @db.VarChar(20)
+  creadoEn        DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  usuario  Usuario  @relation(fields: [usuarioId], references: [id])
+  libro    Libro    @relation(fields: [libroId], references: [id])
+  ejemplar Ejemplar @relation(fields: [ejemplarId], references: [id])
+
+  @@map("reserva")
+}
+
+model ConfiguracionMulta {
+  id              String   @id @default(uuid()) @db.Uuid
+  tarifaDiaria    Decimal  @map("tarifa_diaria") @db.Decimal(10, 2)
+  diasMaxPrestamo Int      @map("dias_max_prestamo")
+  creadoEn        DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  @@map("configuracion_multa")
+}
+
+model Resena {
+  id         String   @id @default(uuid()) @db.Uuid
+  usuarioId  String   @map("usuario_id") @db.VarChar(128)
+  libroId    String   @map("libro_id") @db.Uuid
+  puntuacion Int?
+  comentario String?
+  creadoEn   DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  libro   Libro   @relation(fields: [libroId], references: [id])
+
+  @@map("resena")
+}
+
+model Historial {
+  id           String   @id @default(uuid()) @db.Uuid
+  nombreAccion String   @map("nombre_accion") @db.VarChar(100)
+  accion       String
+  hechoPorId   String   @map("hecho_por") @db.VarChar(128)
+  modulo       String?  @db.VarChar(50)
+  ipUsuario    String?  @map("ip_usuario") @db.VarChar(50)
+  creadoEn     DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  hechoPor Usuario @relation(fields: [hechoPorId], references: [id])
+
+  @@map("historial")
+}
+
+model Favorito {
+  id        String   @id @default(uuid()) @db.Uuid
+  usuarioId String   @map("usuario_id") @db.VarChar(128)
+  libroId   String   @map("libro_id") @db.Uuid
+  creadoEn  DateTime @default(now()) @map("creado_en") @db.Timestamptz(6)
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  libro   Libro   @relation(fields: [libroId], references: [id])
+
+  @@unique([usuarioId, libroId])
+  @@map("favorito")
+}

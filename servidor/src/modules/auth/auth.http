@@ -1,0 +1,27 @@
+@baseUrl = http://localhost:3000/api/auth
+@token = {{login.response.body.data.token}}
+
+# @name login
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+  "correo": "admin@biblioteca.edu",
+  "password": "12345678"
+}
+
+### Registro
+POST {{baseUrl}}/registro
+Content-Type: application/json
+
+{
+  "rolId": "f2367405-cf0c-4b79-bd72-2868a3a75934",
+  "nombre": "Nuevo",
+  "apellidos": "Usuario",
+  "correo": "nuevo@email.com",
+  "password": "12345678"
+}
+
+### Perfil (me)
+GET {{baseUrl}}/me
+Authorization: Bearer {{token}}

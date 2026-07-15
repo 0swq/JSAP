@@ -1,0 +1,720 @@
+================================================================================
+  DOCUMENTACIÓN DE COMPONENTES — Biblioteca JSA
+  _shared/componentes  |  40 componentes  |  2026-06-22
+================================================================================
+
+==============================================================================
+🔘 BOTONES (3)
+==============================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ BotonComponent  |  selector: app-boton
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string                          — texto del botón
+│   icono: string                             — SVG inline
+│   posicionIcono: 'izquierda' | 'derecha'    — default 'izquierda'
+│   cargando: boolean                         — muestra spinner y deshabilita
+│   deshabilitado: boolean
+│   tamanio: 'sm' | 'md' | 'lg'              — default 'md'
+│   anchoCompleto: boolean                    — w-full
+│   variante: 'primario' | 'peligro' | 'exito' | 'neutro'
+│                                             — default 'primario'
+│   tipo: string                              — type del <button>, default 'button'
+│   cuadrado: boolean                         — sin border-radius (rounded-none)
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   presionado: void                          — emitido al hacer click
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Soporta <ng-content /> para contenido extra. El icono se renderiza
+│ con innerHTML. Las variantes primario usan amber-700 como color principal.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ BotonContornoComponent  |  selector: app-boton-contorno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string                          — texto del botón
+│   icono: string                             — SVG inline
+│   posicionIcono: 'izquierda' | 'derecha'    — default 'izquierda'
+│   cargando: boolean                         — muestra spinner y deshabilita
+│   deshabilitado: boolean
+│   tamanio: 'sm' | 'md' | 'lg'              — default 'md'
+│   anchoCompleto: boolean                    — w-full
+│   tipo: string                              — type del <button>, default 'button'
+│   variante: 'primario' | 'peligro' | 'exito' | 'neutro'
+│                                             — default 'primario'
+│   cuadrado: boolean                         — sin border-radius
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   presionado: void
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Igual a BotonComponent pero con estilo "outline" (border-2,
+│ bg-transparent, texto del color de la variante en vez de blanco).
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ BotonIconoComponent  |  selector: app-boton-icono
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   icono: string                             — SVG inline (requerido visualmente)
+│   tamanio: string                           — 'sm' | 'md' | 'lg', default 'md'
+│   tooltip: string                           — atributo title nativo
+│   deshabilitado: boolean
+│   tipo: string                              — type del <button>, default 'button'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   presionado: void
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Botón cuadrado solo icono, esquinas redondeadas (rounded-lg).
+│ Tamaños: sm=32px, md=40px, lg=48px.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+==============================================================================
+📝 TEXTO (4)
+==============================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TextTituloComponent  |  selector: texto-titulo
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   nivel: string       — decorativo (h1-h6), default 'h2'
+│   tamanio: string     — xs | sm | base | lg | xl | 2xl | 3xl | 4xl | 5xl
+│                         default '2xl'
+│   peso: string        — fino | ligero | normal | medio | seminegrita |
+│                         negrita | extranegrita. Default 'negrita'
+│   color: string       — negro | gris | claro | blanco | primario | error
+│                         default 'negro'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Usa <ng-content />. Las clases se aplican vía host binding.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TextoNormalComponent  |  selector: texto-normal
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   tamanio: string     — xs | sm | base | lg | xl | 2xl | 3xl | 4xl | 5xl
+│                         default 'base'
+│   color: string       — negro | gris | claro | blanco | primario | error
+│                         default 'negro'
+│   peso: string        — fino | ligero | normal | medio | negrita
+│                         default 'normal'
+│   truncar: boolean    — aplica .truncate (texto con elipsis)
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Texto de cuerpo genérico. Usa <ng-content />.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TextoPequenoComponent  |  selector: texto-pequeno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   color: string  — gris | negro | claro | error | exito. Default 'gris'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Tamaño fijo (text-xs). Útil para pies de foto, hints, leyendas.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ EtiquetaComponent  |  selector: texto-etiqueta
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   para: string       — valor del atributo for del <label>
+│   requerido: boolean — muestra asterisco rojo (*)
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Renderiza <label> con text-sm font-medium text-gray-700.
+│ Soporta <ng-content /> para el texto de la etiqueta.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+==============================================================================
+📐 DISEÑO / LAYOUT (4)
+==============================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PilaVerticalComponent  |  selector: app-pila-vertical
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   espacio: string      — gap de Tailwind: '0' a '12', default '4'
+│   alinear: string      — items-*: inicio | centro | fin | estirar
+│                           default 'inicio'
+│   justificar: string   — justify-*: inicio | centro | fin | entre |
+│                           alrededor | uniforme. Default 'inicio'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Contenedor flex-col. Proyecta <ng-content />.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PilaHorizontalComponent  |  selector: app-pila-horizontal
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   espacio: string      — gap, default '4'
+│   alinear: string      — items-*: inicio | centro | fin | estirar
+│   justificar: string   — justify-*: inicio | centro | fin | entre |
+│                           alrededor | uniforme
+│   envolver: string     — no (flex-nowrap) | si (flex-wrap) |
+│                           inverso (flex-wrap-reverse). Default 'no'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Contenedor flex (horizontal). Más completo que el vertical porque
+│ incluye control de wrap.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ContenedorComponent  |  selector: app-contenedor
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   anchoMaximo: 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' |
+│                '4xl' | '5xl' | '6xl' | '7xl'. Default '6xl'
+│   centrado: boolean      — aplica mx-auto, default true
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Envuelve contenido con max-w-* y centrado opcional.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ DivisorComponent  |  selector: app-divisor
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   orientacion: string   — 'horizontal' | 'vertical'. Default 'horizontal'
+│   etiqueta: string      — texto opcional en el medio del divisor
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Línea gris con texto centrado opcional. En vertical usa flex-col
+│ con altura completa (h-full).
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+==============================================================================
+🧭 NAVEGACIÓN (7)
+==============================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ HeaderComponent  |  selector: app-header
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS: ninguno directo. Usa StorageService inyectado para:
+│         - isLoggedIn() → logueado
+│         - getNombre() → nombre de usuario
+│         - getRol() → rol del usuario
+│         - fetchPerfil() en OnInit
+│ ENLACES FIJOS: Inicio, Catálogo, Mis Préstamos, Reservas
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   logout: void    — emitido (aunque internamente hace clean() + reload)
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Header completo con menú responsive (hamburguesa en mobile),
+│ avatar, botón login/logout. Importa BotonContornoComponent y AvatarComponent.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ FooterComponent  |  selector: app-footer
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Footer simple con año dinámico. Muestra "© AÑO Biblioteca JSA.
+│ Semana 14 :(". Sin inputs ni outputs.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ BarraNavComponent  |  selector: app-barra-nav
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   marca: string       — nombre/texto de la marca (lado izquierdo)
+│   enlaces: Array<{ etiqueta: string; ruta: string }>
+│   rutaMarca: string   — routerLink de la marca, default '/'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Barra de navegación superior genérica. No tiene lógica de auth.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PiePaginaComponent  |  selector: app-pie-pagina
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Footer genérico con <ng-content /> para el texto. Diferente a
+│ FooterComponent que tiene texto fijo.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PestaniasComponent  |  selector: app-pestanias
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   pestanias: Array<{ etiqueta: string; id: string }>
+│   pestaniaActiva: string
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   cambioPestania: string    — emite el id de la pestaña clickeada
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Tabs horizontales con borde inferior. Estilo activo en azul.
+│ El componente maneja internamente cuál está activo.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PaginacionComponent  |  selector: app-paginacion
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   pagina: number         — página actual, default 1
+│   total: number          — total de elementos, default 0
+│   tamanioPagina: number  — elementos por página, default 10
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   cambioPagina: number   — emite el número de página al navegar
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Paginación completa con elipsis (...) cuando hay más de 7 páginas.
+│ Calcula totalPaginas automáticamente. Botones Anterior/Siguiente.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ MigasComponent  |  selector: app-migas
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   elementos: Array<{ etiqueta: string; ruta: string }>
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Breadcrumbs con separador chevron SVG. El último elemento se
+│ renderiza como texto (no link) en negrita.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+==============================================================================
+📥 ENTRADAS / FORMULARIOS (9)
+==============================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ EntradaComponent  |  selector: app-entrada
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string       — texto del <label>
+│   id: string             — id del input y for del label
+│   tipo: string           — type HTML: text | email | etc. Default 'text'
+│   placeholder: string
+│   valor: string          — valor bindeado con ngModel
+│   error: string          — mensaje de error (borde rojo + texto)
+│   pista: string          — texto de ayuda debajo (cuando no hay error)
+│   requerido: boolean     — asterisco rojo
+│   deshabilitado: boolean
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   valorCambio: string    — emite el nuevo valor en cada cambio
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Input genérico. Borde cambia a rojo si hay error.
+│ Usa FormsModule para ngModel bidireccional manual.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ EntradaPasswordComponent  |  selector: app-entrada-password
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string
+│   id: string
+│   placeholder: string
+│   valor: string
+│   error: string
+│   pista: string
+│   requerido: boolean
+│   deshabilitado: boolean
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   valorCambio: string
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Igual que EntradaComponent pero con botón toggle (ojo) para
+│ mostrar/ocultar contraseña. El botón tiene tabindex="-1".
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ EntradaBusquedaComponent  |  selector: app-entrada-busqueda
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   id: string
+│   placeholder: string    — default 'Buscar...'
+│   valor: string
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   valorCambio: string
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Input con icono de lupa a la izquierda y botón X para limpiar
+│ (solo visible cuando hay texto). Sin etiqueta.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ EntradaNumeroComponent  |  selector: app-entrada-numero
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string
+│   id: string
+│   min: number            — valor mínimo, default 0
+│   max: number            — valor máximo, default 999
+│   paso: number           — incremento, default 1
+│   valor: number          — default 0
+│   deshabilitado: boolean
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   valorCambio: number
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Input numérico con botones +/− a los lados. Oculta los spinners
+│ nativos del navegador. Valida min/max en onCambio().
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ EntradaArchivoComponent  |  selector: app-entrada-archivo
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string
+│   aceptar: string        — ej: ".pdf,.doc" (atributo accept)
+│   multiple: boolean      — permite múltiples archivos
+│   pesoMaximoMB: number   — límite en MB, default 10
+│   error: string          — mensaje de error externo
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   archivosSeleccionados: File[]
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Zona de drop estilizada (borde dashed). Valida peso máximo por
+│ archivo. Emite array de Files.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ EntradaImagenComponent  |  selector: app-entrada-imagen
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   imagenSeleccionada: File | null   — null cuando se remueve
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Subida de imagen con preview. Muestra la imagen cargada con overlay
+│ hover para remover. Usa URL.createObjectURL para el preview local.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ SelectorComponent  |  selector: app-selector
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string
+│   id: string
+│   opciones: Array<{ etiqueta: string; valor: string }>
+│   valor: string
+│   error: string
+│   placeholder: string     — opción disabled inicial
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   valorCambio: string
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Select nativo estilizado. Placeholder se renderiza como
+│ <option value="" disabled>.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ CasillaComponent  |  selector: app-casilla
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string
+│   marcado: boolean        — estado checked, default false
+│   deshabilitado: boolean
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   marcadoCambio: boolean
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Checkbox estilizado con label clickeable.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ InterruptorComponent  |  selector: app-interruptor
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string
+│   activo: boolean         — estado on/off, default false
+│   deshabilitado: boolean
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   activoCambio: boolean
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Toggle switch animado (deslizamiento de bolita blanca).
+│ Usa role="switch" y aria-checked para accesibilidad.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+==============================================================================
+💬 RETROALIMENTACIÓN (4)
+==============================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ AlertaComponent  |  selector: app-alerta
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   mensaje: string
+│   tipo: string          — exito | error | advertencia | info. Default 'info'
+│   descartable: boolean  — muestra botón X para cerrar
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   descartada: void      — emitido al cerrar
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Alerta con icono SVG según tipo, colores de fondo/borde/texto
+│ diferenciados. Se oculta completamente al descartar (visible=false).
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ GiradorComponent  |  selector: app-girador
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   tamanio: string  — sm (20px) | md (32px) | lg (48px). Default 'md'
+│   color: string    — blue | gray | white | green. Default 'blue'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Spinner SVG animado con animate-spin. Padding vertical solo en
+│ md/lg. Centrado con flex.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ EsqueletoComponent  |  selector: app-esqueleto
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   ancho: string       — 'full' o valor arbitrario (ej: '64px'), default 'full'
+│   alto: string        — altura Tailwind (ej: '4' = 16px), default '4'
+│   redondeado: boolean — default true (rounded-lg)
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Placeholder animado (animate-pulse) para carga esqueleto.
+│ Fondo gray-200.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ EstadoVacioComponent  |  selector: app-estado-vacio
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   titulo: string       — default 'Sin elementos'
+│   descripcion: string
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Ícono de caja + título + descripción opcional. Soporta
+│ <ng-content /> para acciones extra (ej: botón "Crear").
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+==============================================================================
+📊 DATOS (8)
+==============================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TablaComponent  |  selector: app-tabla
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   columnas: Array<{ clave: string; etiqueta: string }>
+│             — clave debe coincidir con propiedad del objeto fila
+│   filas: any[]
+│   cargando: boolean        — muestra spinner centrado
+│   mensajeVacio: string     — default 'No hay datos disponibles'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Tabla responsive con borde redondeado. Thead sticky con fondo gris.
+│ Filas con hover. Sin paginación incluida (usar PaginacionComponent aparte).
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TarjetaComponent  |  selector: app-tarjeta
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   titulo: string
+│   subtitulo: string
+│   sombra: boolean     — default false (shadow-md)
+│   relleno: boolean    — default true (p-5 en el cuerpo)
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Tarjeta estática con header opcional (borde inferior separador).
+│ Proyecta <ng-content /> para el cuerpo.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TarjetaClickableComponent  |  selector: app-tarjeta-clickable
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   titulo: string
+│   subtitulo: string
+│   relleno: boolean    — default true
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   presionado: void
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Igual que Tarjeta pero clickeable. Tiene hover: shadow + translate-y,
+│ cursor pointer, tabindex="0", y responde a Enter. Usa role implícito.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ AvatarComponent  |  selector: app-avatar
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   src: string      — URL de imagen. Si no hay, muestra iniciales
+│   nombre: string   — para generar iniciales (primeras 2 palabras)
+│   tamanio: string  — sm (32px) | md (40px) | lg (56px). Default 'md'
+│   forma: string    — 'circulo' (rounded-full) | 'cuadrado' (rounded-lg)
+│                       Default 'circulo'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Si src está vacío, calcula iniciales (máx 2 caracteres).
+│ Muestra '?' si no hay nombre.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ InsigniaComponent  |  selector: app-insignia
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string
+│   color: string    — blue | gray | green | red | amber. Default 'blue'
+│   variante: string — solido | contorno | sutil. Default 'solido'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Badge/tag pequeño. 3 variantes × 5 colores = 15 combinaciones.
+│ Siempre rounded-full, text-xs, font-medium.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ChipComponent  |  selector: app-chip
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   etiqueta: string
+│   icono: string      — SVG inline opcional
+│   removible: boolean — muestra botón X
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   eliminado: void    — emitido al clickear la X
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Chip/tag con fondo gris claro. El botón X llama a
+│ $event.stopPropagation() para no propagar el click.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ AcordeonComponent  |  selector: app-acordeon
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   elementos: Array<{ titulo: string; contenido: string }>
+│   multiple: boolean  — si false, solo uno abierto a la vez. Default false
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Acordeón con flecha animada (rotate-180). Estado interno con Set.
+│ Fondo gris claro en panel abierto.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+==============================================================================
+🪟 MODALES (4)
+==============================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ ModalComponent  |  selector: app-modal
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   titulo: string
+│   abierto: boolean
+│   tamanio: string  — sm (max-w-sm) | md (max-w-lg) | lg (max-w-2xl)
+│                       Default 'md'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   cerrado: void    — emitido al cerrar (click en overlay o botón X)
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Modal centrado con overlay negro 50%. Header con título y botón X
+│ (solo si hay título). Proyecta <ng-content /> para el cuerpo.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ DialogoConfirmarComponent  |  selector: app-dialogo-confirmar
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   mensaje: string           — default '¿Estás seguro?'
+│   abierto: boolean
+│   etiquetaConfirmar: string — default 'Confirmar'
+│   etiquetaCancelar: string  — default 'Cancelar'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   confirmado: void
+│   cancelado: void
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Diálogo de confirmación con ícono de advertencia (triángulo ámbar).
+│ Botón confirmar en rojo. Cierra automáticamente al confirmar o cancelar.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ CajonComponent  |  selector: app-cajon
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   abierto: boolean
+│   lado: string     — 'izquierda' | 'derecha'. Default 'derecha'
+│   tamanio: string  — sm (w-80) | md (w-96) | lg (w-[480px]). Default 'sm'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS:
+│   cerrado: void    — emitido al clickear el overlay
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Drawer lateral animado (transition-transform). Overlay negro.
+│ Proyecta <ng-content />. Útil para menús laterales, filtros, etc.
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TooltipComponent  |  selector: app-tooltip
+├─────────────────────────────────────────────────────────────────────────────┤
+│ INPUTS:
+│   texto: string
+│   posicion: string  — arriba | abajo | izquierda | derecha. Default 'arriba'
+├─────────────────────────────────────────────────────────────────────────────┤
+│ OUTPUTS: ninguno
+├─────────────────────────────────────────────────────────────────────────────┤
+│ NOTAS: Tooltip con flecha CSS (cuadrado rotado 45°). Se muestra con
+│ group-hover. Proyecta <ng-content /> como trigger.
+│ Ejemplo: <app-tooltip texto="Ayuda"><button>Hover me</button></app-tooltip>
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+==============================================================================
+📊 ESTADÍSTICAS
+==============================================================================
+
+  Categoría               Cantidad   Selectores
+  ──────────────────────────────────────────────────────
+  Botones                    3        app-boton, app-boton-contorno, app-boton-icono
+  Texto                      4        texto-titulo, texto-normal, texto-pequeno, texto-etiqueta
+  Diseño / Layout            4        app-pila-vertical, app-pila-horizontal, app-contenedor, app-divisor
+  Navegación                 7        app-header, app-footer, app-barra-nav, app-pie-pagina, app-pestanias, app-paginacion, app-migas
+  Entradas / Formularios     9        app-entrada, app-entrada-password, app-entrada-busqueda, app-entrada-numero, app-entrada-archivo, app-entrada-imagen, app-selector, app-casilla, app-interruptor
+  Retroalimentación          4        app-alerta, app-girador, app-esqueleto, app-estado-vacio
+  Datos                      8        app-tabla, app-tarjeta, app-tarjeta-clickable, app-avatar, app-insignia, app-chip, app-acordeon
+  Modales                    4        app-modal, app-dialogo-confirmar, app-cajon, app-tooltip
+  ──────────────────────────────────────────────────────
+  TOTAL                     40
+
+==============================================================================
+PATRONES COMUNES
+==============================================================================
+
+  - Todos son standalone: true con CommonModule
+  - Formularios usan FormsModule + ngModel con emisión manual vía Output
+  - Variantes de color/tamaño con Record<string, string> en getters
+  - Contenido proyectado con <ng-content />
+  - Sin dependencia de librerías externas (solo Angular + Tailwind CSS)
+  - Nombres en español (inputs, outputs, selectores)
+  - Sin archivos .css/.scss separados — estilos inline en template
+
+==============================================================================

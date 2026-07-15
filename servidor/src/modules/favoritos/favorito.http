@@ -1,0 +1,35 @@
+### Variables
+@baseUrl = http://localhost:3000/api/favoritos
+@token = {{login.response.body.data.token}}
+
+### Login
+# @name login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "admin@biblioteca.edu",
+  "password": "12345678"
+}
+
+### GET favoritos por usuario
+GET {{baseUrl}}/usuario/550e8400-e29b-41d4-a716-446655440010
+Authorization: Bearer {{token}}
+
+### GET favorito por ID
+GET {{baseUrl}}/550e8400-e29b-41d4-a716-446655440016
+Authorization: Bearer {{token}}
+
+### POST crear favorito
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "usuarioId": "550e8400-e29b-41d4-a716-446655440010",
+  "libroId": "550e8400-e29b-41d4-a716-446655440005"
+}
+
+### DELETE eliminar favorito
+DELETE {{baseUrl}}/550e8400-e29b-41d4-a716-446655440016
+Authorization: Bearer {{token}}

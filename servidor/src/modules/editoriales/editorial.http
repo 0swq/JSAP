@@ -1,0 +1,42 @@
+### Variables
+@baseUrl = http://localhost:3000/api/editoriales
+@token = {{login.response.body.data.token}}
+
+### Login
+# @name login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "admin@biblioteca.edu",
+  "password": "12345678"
+}
+
+### GET todas las editoriales (público)
+GET {{baseUrl}}
+
+### GET editorial por ID
+GET {{baseUrl}}/550e8400-e29b-41d4-a716-446655440004
+
+### POST crear editorial
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Editorial Sudamericana",
+  "pais": "Argentina"
+}
+
+### PATCH actualizar editorial
+PATCH {{baseUrl}}/550e8400-e29b-41d4-a716-446655440004
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nombre": "Editorial Sudamericana S.A."
+}
+
+### DELETE eliminar editorial
+DELETE {{baseUrl}}/550e8400-e29b-41d4-a716-446655440004
+Authorization: Bearer {{token}}

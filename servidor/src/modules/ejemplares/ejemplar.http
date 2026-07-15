@@ -1,0 +1,47 @@
+### Variables
+@baseUrl = http://localhost:3000/api/ejemplares
+@token = {{login.response.body.data.token}}
+
+### Login
+# @name login
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "correo": "admin@biblioteca.edu",
+  "password": "12345678"
+}
+
+### GET todos los ejemplares (público)
+GET {{baseUrl}}
+
+### GET ejemplares por libro
+GET {{baseUrl}}/libro/550e8400-e29b-41d4-a716-446655440005
+
+### GET ejemplar por ID
+GET {{baseUrl}}/550e8400-e29b-41d4-a716-446655440006
+
+### POST crear ejemplar
+POST {{baseUrl}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "libroId": "550e8400-e29b-41d4-a716-446655440005",
+  "codigoBarras": "COD-001",
+  "estado": "disponible",
+  "ubicacion": "Estante A-12"
+}
+
+### PATCH actualizar ejemplar
+PATCH {{baseUrl}}/550e8400-e29b-41d4-a716-446655440006
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "estado": "prestado"
+}
+
+### DELETE eliminar ejemplar
+DELETE {{baseUrl}}/550e8400-e29b-41d4-a716-446655440006
+Authorization: Bearer {{token}}
