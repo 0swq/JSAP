@@ -1,7 +1,7 @@
 import {Environment} from './environment.interface';
 
 export const environment: Environment = {
-  apiUrl: 'http://100.86.116.110:3000/api',
+  apiUrl: 'http://100.86.116.110:3002/api',
 
 
   appName: 'Biblioteca JSA',

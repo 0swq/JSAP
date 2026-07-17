@@ -183,7 +183,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.prestamoService.listar().subscribe({
       next: (data: any) => {
         const items = this.normalizarLista(data);
-        const porEstado: Record<string, number> = { activo: 0, devuelto: 0, vencido: 0 };
+
+        // El backend usa "prestado" como estado de un préstamo en curso
+        // (equivalente semántico de "activo"), además de "devuelto" y "vencido".
+        const porEstado: Record<string, number> = {
+          prestado: 0,
+          devuelto: 0,
+          vencido: 0,
+        };
 
         for (const p of items) {
           const estado = p.estado ?? 'desconocido';
@@ -191,7 +198,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         const colorMap: Record<string, string> = {
-          activo: '#3b82f6',
+          prestado: '#3b82f6',
           devuelto: '#22c55e',
           vencido: '#ef4444',
         };
@@ -205,7 +212,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         };
 
         this.sinPrestamos = entradas.length === 0;
-        this.actualizarStat('Préstamos activos', porEstado['activo'] ?? 0, 'en curso', '#3b82f6');
+        this.actualizarStat('Préstamos activos', porEstado['prestado'] ?? 0, 'en curso', '#3b82f6');
         this.marcarCarga();
       },
       error: () => {
@@ -223,6 +230,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         const porEstado: Record<string, number> = {
           disponible: 0,
           prestado: 0,
+          reservado: 0,
           perdido: 0,
           mantenimiento: 0,
         };
@@ -235,8 +243,9 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         const colorMap: Record<string, string> = {
           disponible: '#22c55e',
           prestado: '#3b82f6',
+          reservado: '#f59e0b',
           perdido: '#ef4444',
-          mantenimiento: '#f59e0b',
+          mantenimiento: '#a8a29e',
         };
 
         const entradas = Object.entries(porEstado).filter(([_, v]) => v > 0);
