@@ -134,4 +134,8 @@ export class LibroService {
       { tituloOrigen, tituloDestino, contexto },
     );
   }
+
+  obtenerUrlVisualizarPdf(urlRecurso: string): string {
+    return `${this.base}/recursos/visualizar?url=${encodeURIComponent(urlRecurso)}`;
+  }
 }

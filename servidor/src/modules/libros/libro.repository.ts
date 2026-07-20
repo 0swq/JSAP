@@ -1,6 +1,6 @@
 // @ts-nocheck
-import {prisma} from '../prisma';
-import {CrearLibroDto, ActualizarLibroDto} from './libro.dto';
+import { prisma } from '../prisma';
+import { CrearLibroDto, ActualizarLibroDto } from './libro.dto';
 
 export const libroRepositorio = {
     obtenerTodos(filtros: {
@@ -16,13 +16,13 @@ export const libroRepositorio = {
     } = {}) {
         const where: any = {};
 
-        if (filtros.titulo) where.titulo = {contains: filtros.titulo, mode: 'insensitive'};
-        if (filtros.isbn) where.isbn = {contains: filtros.isbn, mode: 'insensitive'};
+        if (filtros.titulo) where.titulo = { contains: filtros.titulo, mode: 'insensitive' };
+        if (filtros.isbn) where.isbn = { contains: filtros.isbn, mode: 'insensitive' };
         if (filtros.editorialId) where.editorialId = filtros.editorialId;
         if (filtros.publicado !== undefined) where.publicado = filtros.publicado;
         if (filtros.anioPublicacion) where.anioPublicacion = filtros.anioPublicacion;
-        if (filtros.autorId) where.autores = {some: {autorId: filtros.autorId}};
-        if (filtros.categoriaId) where.categorias = {some: {categoriaId: filtros.categoriaId}};
+        if (filtros.autorId) where.autores = { some: { autorId: filtros.autorId } };
+        if (filtros.categoriaId) where.categorias = { some: { categoriaId: filtros.categoriaId } };
 
         const pagina = filtros.pagina ?? 1;
         const porPagina = filtros.porPagina; // undefined = sin límite
@@ -31,11 +31,12 @@ export const libroRepositorio = {
             where,
             include: {
                 editorial: true,
-                autores: {include: {autor: true}},
-                categorias: {include: {categoria: true}},
-                ejemplares: {select: {id: true, codigoBarras: true, estado: true, ubicacion: true, fechaAdquisicion: true}},
+                autores: { include: { autor: true } },
+                categorias: { include: { categoria: true } },
+                ejemplares: { select: { id: true, codigoBarras: true, estado: true, ubicacion: true, fechaAdquisicion: true } },
+                recursosDigitales: true,
             },
-            orderBy: {creadoEn: 'desc'},
+            orderBy: { creadoEn: 'desc' },
         };
 
         if (porPagina !== undefined) {
@@ -48,18 +49,18 @@ export const libroRepositorio = {
 
     obtenerPorId(id: string) {
         return prisma.libro.findUnique({
-            where: {id},
+            where: { id },
             include: {
                 editorial: true,
-                autores: {include: {autor: true}},
-                categorias: {include: {categoria: true}},
-                ejemplares: {select: {id: true, codigoBarras: true, estado: true, ubicacion: true, fechaAdquisicion: true}},
+                autores: { include: { autor: true } },
+                categorias: { include: { categoria: true } },
+                ejemplares: { select: { id: true, codigoBarras: true, estado: true, ubicacion: true, fechaAdquisicion: true } },
                 recursosDigitales: true,
             },
         });
     },
 
-    crear(data: CrearLibroDto & { autorIds?: string[]; categoriaIds?: string[]; recursosDigitales?: Array<{tipo: string; url: string; formato?: string}> }) {
+    crear(data: CrearLibroDto & { autorIds?: string[]; categoriaIds?: string[]; recursosDigitales?: Array<{ tipo: string; url: string; formato?: string }> }) {
         const { autorIds, categoriaIds, recursosDigitales, ...libroData } = data as any;
         return prisma.libro.create({
             data: {
@@ -82,14 +83,14 @@ export const libroRepositorio = {
             },
             include: {
                 editorial: true,
-                autores: {include: {autor: true}},
-                categorias: {include: {categoria: true}},
+                autores: { include: { autor: true } },
+                categorias: { include: { categoria: true } },
                 recursosDigitales: true,
             },
         });
     },
 
-    actualizar(id: string, data: ActualizarLibroDto & { autorIds?: string[]; categoriaIds?: string[]; recursosDigitales?: Array<{tipo: string; url: string; formato?: string}> }) {
+    actualizar(id: string, data: ActualizarLibroDto & { autorIds?: string[]; categoriaIds?: string[]; recursosDigitales?: Array<{ tipo: string; url: string; formato?: string }> }) {
         const { autorIds, categoriaIds, recursosDigitales, ...libroData } = data as any;
 
         // Construir la parte de relaciones solo si se enviaron
@@ -115,19 +116,19 @@ export const libroRepositorio = {
         }
 
         return prisma.libro.update({
-            where: {id},
+            where: { id },
             data: updateData,
             include: {
                 editorial: true,
-                autores: {include: {autor: true}},
-                categorias: {include: {categoria: true}},
+                autores: { include: { autor: true } },
+                categorias: { include: { categoria: true } },
                 recursosDigitales: true,
             },
         });
     },
 
     eliminar(id: string) {
-        return prisma.libro.delete({where: {id}});
+        return prisma.libro.delete({ where: { id } });
     },
 
     async buscar(termino: string, pagina = 1, porPagina = 10) {
@@ -168,6 +169,7 @@ export const libroRepositorio = {
                     autores: { include: { autor: true } },
                     categorias: { include: { categoria: true } },
                     ejemplares: { select: { id: true, codigoBarras: true, estado: true, ubicacion: true, fechaAdquisicion: true } },
+                    recursosDigitales: true,
                 },
             })
             : [];
@@ -184,5 +186,3 @@ export const libroRepositorio = {
         };
     },
 };
-
-

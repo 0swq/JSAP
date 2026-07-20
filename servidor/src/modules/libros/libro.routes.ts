@@ -1,10 +1,10 @@
 // @ts-nocheck
-import {Router} from 'express';
-import {libroControlador} from './libro.controller';
-import {middlewareAutenticacion} from '@middlewares/auth.middleware';
-import {middlewareRol} from '@middlewares/role.middleware';
-import {validar} from '@middlewares/validate.middleware';
-import {crearLibroSchema, actualizarLibroSchema, filtroLibroSchema} from './libro.validator';
+import { Router } from 'express';
+import { libroControlador } from './libro.controller';
+import { middlewareAutenticacion } from '@middlewares/auth.middleware';
+import { middlewareRol } from '@middlewares/role.middleware';
+import { validar } from '@middlewares/validate.middleware';
+import { crearLibroSchema, actualizarLibroSchema, filtroLibroSchema } from './libro.validator';
 
 const router = Router();
 
@@ -15,6 +15,7 @@ router.post('/grafoInformacion/explicarRelacion', libroControlador.explicarRelac
 router.get('/buscar', libroControlador.buscar);
 router.get('/', validar(filtroLibroSchema, 'query'), libroControlador.obtenerTodos);
 router.get('/:id', libroControlador.obtenerPorId);
+router.get('/recursos/visualizar', libroControlador.visualizarPdf);
 
 router.use(middlewareAutenticacion);
 router.post('/', middlewareRol(['admin', 'bibliotecario']), validar(crearLibroSchema), libroControlador.crear);

@@ -121,4 +121,35 @@ export const libroControlador = {
             next(error);
         }
     },
+ async visualizarPdf(req: Request, res: Response, next: NextFunction) {
+    const abortController = new AbortController();
+    req.on('close', () => abortController.abort());
+
+    try {
+        const url = req.query.url as string;
+        const rangeHeader = req.headers.range as string | undefined;
+
+        const { stream, status, contentType, contentLength, contentRange, acceptRanges } =
+            await libroServicio.visualizarPdf(url, rangeHeader, abortController.signal);
+
+        res.status(status);
+        res.setHeader('Content-Type', contentType);
+        res.setHeader('Content-Disposition', 'inline');
+        if (acceptRanges) res.setHeader('Accept-Ranges', acceptRanges);
+        if (contentRange) res.setHeader('Content-Range', contentRange);
+        if (contentLength) res.setHeader('Content-Length', contentLength);
+
+        stream.on('error', (err: any) => {
+            if (err?.name === 'AbortError' || abortController.signal.aborted) return;
+            console.error('Error en stream de PDF:', err.message);
+            if (!res.headersSent) res.status(502).end();
+            else res.destroy();
+        });
+
+        stream.pipe(res);
+    } catch (err: any) {
+        if (err?.name === 'AbortError') return;
+        next(err);
+    }
+}
 };

@@ -1,22 +1,23 @@
-import {Component, inject, OnInit, ChangeDetectorRef} from '@angular/core';
-import {DatePipe} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {Router, RouterLink, ActivatedRoute} from '@angular/router';
-import {HeaderComponent} from '../../_shared/componentes/navegacion/header.component';
-import {FooterComponent} from '../../_shared/componentes/navegacion/footer.component';
-import {TarjetaComponent} from '../../_shared/componentes/datos/tarjeta.component';
-import {BotonComponent} from '../../_shared/componentes/botones/boton.component';
-import {TextoNormalComponent} from '../../_shared/componentes/texto/texto-normal.component';
-import {TextoPequenoComponent} from '../../_shared/componentes/texto/texto-pequeno.component';
-import {NavigationService} from "../../_services/navigation-store";
-import {PilaHorizontalComponent} from "../../_shared/componentes/diseno/pila-horizontal.component";
-import {BotonContornoComponent} from "../../_shared/componentes/botones/boton-contorno.component";
-import {LibroService} from "../../_services/libro.service";
-import {ResenaService} from "../../_services/resena.service";
-import {FavoritoService} from "../../_services/favorito.service";
-import {FavoritoStoreService} from "../../_services/favorito-store";
-import {StorageService} from "../../_services/storage.service";
-import {InformacionLibroService} from "../../_services/informacion-store";
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { HeaderComponent } from '../../_shared/componentes/navegacion/header.component';
+import { FooterComponent } from '../../_shared/componentes/navegacion/footer.component';
+import { TarjetaComponent } from '../../_shared/componentes/datos/tarjeta.component';
+import { BotonComponent } from '../../_shared/componentes/botones/boton.component';
+import { TextoNormalComponent } from '../../_shared/componentes/texto/texto-normal.component';
+import { TextoPequenoComponent } from '../../_shared/componentes/texto/texto-pequeno.component';
+import { NavigationService } from "../../_services/navigation-store";
+import { PilaHorizontalComponent } from "../../_shared/componentes/diseno/pila-horizontal.component";
+import { BotonContornoComponent } from "../../_shared/componentes/botones/boton-contorno.component";
+import { LibroService } from "../../_services/libro.service";
+import { ResenaService } from "../../_services/resena.service";
+import { FavoritoService } from "../../_services/favorito.service";
+import { FavoritoStoreService } from "../../_services/favorito-store";
+import { StorageService } from "../../_services/storage.service";
+import { InformacionLibroService } from "../../_services/informacion-store";
 
 interface Comentario {
   id: string;
@@ -29,7 +30,8 @@ interface Comentario {
   selector: 'app-libro-detalle',
   standalone: true,
   imports: [HeaderComponent, FooterComponent, TarjetaComponent, BotonComponent,
-    TextoNormalComponent, TextoPequenoComponent, FormsModule, DatePipe, PilaHorizontalComponent, BotonContornoComponent, RouterLink],
+    TextoNormalComponent, TextoPequenoComponent, FormsModule, DatePipe, PilaHorizontalComponent,
+    BotonContornoComponent, RouterLink, NgxExtendedPdfViewerModule],
   template: `
     <div class="min-h-screen flex flex-col bg-amber-50/30">
       <app-header></app-header>
@@ -154,12 +156,17 @@ interface Comentario {
                           <span class="text-xs text-stone-400 truncate max-w-[300px]">{{ recurso.url }}</span>
                         </div>
                       </div>
-                      <a [href]="recurso.url" target="_blank" rel="noopener noreferrer"
-                         class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg
-                                bg-amber-500 text-white hover:bg-amber-600 transition-colors
-                                no-underline">
-                        Obtener
-                      </a>
+                      <div class="flex items-center gap-2 shrink-0">
+                        @if (esPdf(recurso.formato)) {
+                          <button type="button"
+                                  (click)="visualizarPdf(recurso)"
+                                  class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg
+                                         bg-stone-200 text-stone-700 hover:bg-stone-300 transition-colors">
+                            Visualizar
+                          </button>
+                        }
+
+                      </div>
                     </div>
                   }
                 </div>
@@ -222,6 +229,37 @@ interface Comentario {
       </main>
 
       <app-footer/>
+
+      @if (pdfVisible) {
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+             (click)="cerrarPdf()">
+          <div class="bg-white rounded-lg w-full h-full max-w-5xl max-h-[90vh] flex flex-col overflow-hidden"
+               (click)="$event.stopPropagation()">
+            <div class="flex items-center justify-between px-4 py-3 border-b border-stone-200">
+              <span class="text-sm font-medium text-stone-700 truncate">{{ pdfTituloActual }}</span>
+              <button type="button"
+                      (click)="cerrarPdf()"
+                      title="Cerrar"
+                      class="flex items-center justify-center w-8 h-8 rounded-md text-stone-500 hover:bg-stone-100 transition-colors">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+            <div class="flex-1 min-h-0">
+              @if (pdfUrlActual) {
+                <ngx-extended-pdf-viewer
+                  [src]="pdfUrlActual"
+                  [showToolbar]="true"
+                  [showSidebarButton]="true"
+                  [textLayer]="true"
+                  height="100%"></ngx-extended-pdf-viewer>
+              }
+            </div>
+          </div>
+        </div>
+      }
     </div>
   `,
 })
@@ -246,6 +284,10 @@ export class LibroDetalleComponent implements OnInit {
   favoritoId: string | null = null;
   cargandoFavorito: boolean = false;
   cargandoGrafo: boolean = false;
+
+  pdfVisible: boolean = false;
+  pdfUrlActual: string | null = null;
+  pdfTituloActual: string = '';
 
   get isLoggedIn(): boolean {
     return this.storageService.isLoggedIn();
@@ -380,6 +422,23 @@ export class LibroDetalleComponent implements OnInit {
         this.cdr.detectChanges();
       },
     });
+  }
+
+  esPdf(formato: string | null | undefined): boolean {
+    return (formato ?? '').trim().toLowerCase() === 'pdf';
+  }
+
+  visualizarPdf(recurso: any): void {
+    if (!recurso?.url) return;
+    this.pdfUrlActual = this.libroService.obtenerUrlVisualizarPdf(recurso.url);
+    this.pdfTituloActual = recurso.tipo ?? this.libro?.titulo ?? 'Documento PDF';
+    this.pdfVisible = true;
+  }
+
+  cerrarPdf(): void {
+    this.pdfVisible = false;
+    this.pdfUrlActual = null;
+    this.pdfTituloActual = '';
   }
 
   private mapearLibro(l: any): any {
